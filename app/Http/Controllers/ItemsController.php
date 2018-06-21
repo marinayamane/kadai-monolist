@@ -1,15 +1,17 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use \App\Item;
 
 class ItemsController extends Controller
 {
 
-public function create()
-{
-$keyword = request()->keyword;
-$items = [];
-if ($keyword) {
+    public function create()
+    {
+    $keyword = request()->keyword;
+    $items = [];
+    if ($keyword) {
     $client = new \RakutenRws_Client();
     $client->setApplicationId(env('RAKUTEN_APPLICATION_ID'));
 
@@ -30,22 +32,24 @@ if ($keyword) {
     }
 }
 
-return view('items.create', [
+    return view('items.create', [
     'keyword' => $keyword,
     'items' => $items,
-]);
+    ]);
 }
 
 
-public function show($id)
+    public function show($id)
     {
       $item = Item::find($id);
       $want_users = $item->want_users;
+      $have_users = $item->have_users;
+
 
       return view('items.show', [
           'item' => $item,
           'want_users' => $want_users,
+          'have_users' => $have_users,
       ]);
     }
-    
-    
+} 
